@@ -86,7 +86,7 @@ class File implements CapacityStorageInterface
             @unlink($file);
         }
     }
-    
+
     /**
      * Get max bloc allow
      * @return int

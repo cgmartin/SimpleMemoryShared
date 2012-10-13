@@ -24,7 +24,7 @@ class StoragePluginManager extends AbstractPluginManager
         //'redis'         => 'SimpleMemoryShared\Storage\Redis',
         'segment'       => 'SimpleMemoryShared\Storage\Segment',
     );
-    
+
     /**
      * Validate the plugin
      *

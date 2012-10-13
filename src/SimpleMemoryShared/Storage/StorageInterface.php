@@ -9,12 +9,12 @@ namespace SimpleMemoryShared\Storage;
 
 interface StorageInterface
 {
-    
+
     public function read($uid);
 
-    
+
     public function write($uid, $mixed);
 
-    
+
     public function close();
 }

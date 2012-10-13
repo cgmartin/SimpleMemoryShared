@@ -14,16 +14,16 @@ class MemorySharedManager
      * @var Storage\StorageInterface
      */
     protected $storage;
-    
+
     /**
      *
-     * @var StoragePluginManager 
+     * @var StoragePluginManager
      */
     protected $storagePluginManager;
-    
+
     /**
      * Construt manager with storage
-     * @param type $storage 
+     * @param type $storage
      */
     public function __construct($storage = null)
     {
@@ -31,10 +31,10 @@ class MemorySharedManager
             $this->setStorage($storage);
         }
     }
-    
+
     /**
      * Get the current storage
-     * @return Storage\StorageInterface 
+     * @return Storage\StorageInterface
      */
     public function getStorage()
     {
@@ -43,11 +43,11 @@ class MemorySharedManager
         }
         return $this->storage;
     }
-    
+
     /**
      * Set the current storage
      * @param Storage\StorageInterface/string $storage
-     * @return SimpleMemoryShared 
+     * @return SimpleMemoryShared
      */
     public function setStorage($storage, $options = null)
     {
@@ -57,10 +57,10 @@ class MemorySharedManager
         $this->storage = $storage;
         return $this;
     }
-    
+
     /**
      * Get the storage plugin manager
-     * @return StoragePluginManager 
+     * @return StoragePluginManager
      */
     public function getStoragePluginManager()
     {
@@ -69,11 +69,11 @@ class MemorySharedManager
         }
         return $this->storagePluginManager;
     }
-    
+
     /**
      * Set the storage plugin manager
      * @param StoragePluginManager $storagePluginManager
-     * @return SimpleMemoryShared 
+     * @return SimpleMemoryShared
      */
     public function setStoragePluginManager(StoragePluginManager $storagePluginManager)
     {

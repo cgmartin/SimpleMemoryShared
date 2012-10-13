@@ -93,7 +93,7 @@ class Memcached implements CapacityStorageInterface
         $this->memcached->flush();
         $this->memcached->close();
     }
-    
+
      /**
      * Get max bloc allow
      */

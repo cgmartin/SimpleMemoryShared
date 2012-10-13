@@ -157,7 +157,7 @@ class Segment implements CapacityStorageInterface
         $this->segmentSize = $size;
         return $this;
     }
-    
+
     /**
      * Get max bloc allow
      */
