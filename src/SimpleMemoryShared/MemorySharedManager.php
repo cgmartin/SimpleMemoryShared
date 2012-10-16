@@ -7,7 +7,7 @@
 
 namespace SimpleMemoryShared;
 
-class MemorySharedManager
+class MemorySharedManager implements Storage\StorageInterface
 {
     /**
      *
@@ -30,6 +30,30 @@ class MemorySharedManager
         if($storage) {
             $this->setStorage($storage);
         }
+    }
+    
+    /**
+     * Proxy storage interface
+     */
+    public function read($uid)
+    {
+        return $this->getStorage()->read($uid);
+    }
+
+    /**
+     * Proxy storage interface
+     */
+    public function write($uid, $mixed)
+    {
+        return $this->getStorage()->write($uid, $mixed);
+    }
+
+    /**
+     * Proxy storage interface
+     */
+    public function close()
+    {
+        return $this->getStorage()->close();
     }
 
     /**

@@ -18,11 +18,18 @@ class SegmentTest extends TestCase
         $this->storage = new Storage\Segment('S');
     }
     
-    public function testCanWriteAndRea()
+    public function testCanWriteAndRead()
     {
         $this->storage->write(3, 'sample');
         $datas = $this->storage->read(3);
         $this->assertEquals($datas, 'sample');
+    }
+    
+    public function testCanWriteAndReadWithNumericKey()
+    {
+        $this->storage->write('1', 'foo');
+        $datas = $this->storage->read('1');
+        $this->assertEquals($datas, 'foo');
     }
     
     public function testCannotWriteAndReadWithStringKey()

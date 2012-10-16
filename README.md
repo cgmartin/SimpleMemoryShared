@@ -1,7 +1,7 @@
 ZF2 SimpleMemoryShared module
 ============
 
-Version 1.0 Created by [Vincent Blanchon](http://developpeur-zend-framework.fr/)
+Version 1.1 Created by [Vincent Blanchon](http://developpeur-zend-framework.fr/)
 
 Introduction
 ------------
@@ -20,13 +20,23 @@ Memory shared manager usage
 <?php
 $manager = $this->getServiceLocator()->get('MemorySharedManager');
 $manager->setStorage('segment');
-$manager->write('my-identifier', 'secret');
+$manager->write('1', 'secret');
 
 // in other process, you can do
-$object = $manager->read('my-identifier');
+$value = $manager->read('1');
 ```
 
-2) Share object with file storage :
+2) Simple share with plugin controller :
+    
+```php
+<?php
+$this->memoryShared('segment')->write('1', 'secret');
+
+// in other process, you can do
+$value = $this->memoryShared()->read('1');
+```
+
+3) Share object with file storage :
     
 ```php
 <?php
@@ -38,7 +48,7 @@ $manager->write('my-identifier', new MyObject());
 $object = $manager->read('my-identifier');
 ```
 
-3) Share object with memcached storage :
+4) Share object with memcached storage :
     
 ```php
 <?php

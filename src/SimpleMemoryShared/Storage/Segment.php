@@ -68,7 +68,7 @@ class Segment implements CapacityStorageInterface
      */
     public function read($uid)
     {
-        if(!is_int($uid) || !is_numeric($uid)) {
+        if(!is_int($uid) && !is_numeric($uid)) {
             throw new Exception\RuntimeException('Segment type key must integer or numeric.');
         }
         $this->alloc();
@@ -82,7 +82,7 @@ class Segment implements CapacityStorageInterface
      */
     public function write($uid, $mixed)
     {
-        if(!is_int($uid) || !is_numeric($uid)) {
+        if(!is_int($uid) && !is_numeric($uid)) {
             throw new Exception\RuntimeException('Segment type key must integer or numeric.');
         }
         $this->alloc();

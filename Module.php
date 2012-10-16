@@ -10,9 +10,10 @@ namespace SimpleMemoryShared;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Feature\ControllerPluginProviderInterface;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
-        ServiceProviderInterface
+        ServiceProviderInterface, ControllerPluginProviderInterface
 {
     public function getConfig()
     {
@@ -27,20 +28,38 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface,
             ),
         );
     }
+    
+    public function getControllerPluginConfig()
+    {
+        return array(
+            'factories' => array(
+                'MemoryShared' => function($sm) {
+                    $memorySharedManager = $sm->getserviceLocator()->get('MemorySharedManager');
+                    $managerHelper = new Controller\Plugin\SimpleMemoryShared();
+                    $managerHelper->setMemorySharedManager($memorySharedManager);
+                    return $managerHelper;
+                }
+            ),
+            'aliases' => array(
+                'MemorySharedManager' => 'MemoryShared',
+                'SimpleMemoryShared' => 'MemoryShared',
+            ),
+        );
+    }
 
     public function getServiceConfig()
     {
         return array(
             'factories' => array(
                 'MemorySharedManager' => function($sm) {
-                    $mmorySharedManager = new MemorySharedManager();
+                    $memorySharedManager = new MemorySharedManager();
                     if(isset($config['simple_memory_shared']['default_storage'])) {
                         $defaultStorage = $config['simple_memory_shared']['default_storage'];
-                        $pluginManager = $mmorySharedManager->getStoragePluginManager();
+                        $pluginManager = $memorySharedManager->getStoragePluginManager();
                         $storage = $pluginManager->get($defaultStorage['type'], $defaultStorage['options']);
-                        $mmorySharedManager->setStorage($storage);
+                        $memorySharedManager->setStorage($storage);
                     }
-                    return $mmorySharedManager;
+                    return $memorySharedManager;
                 },
             ),
             'aliases' => array(
