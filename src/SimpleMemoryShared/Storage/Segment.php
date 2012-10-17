@@ -50,16 +50,16 @@ class Segment implements CapacityStorageInterface
         }
         $this->identifier = $identifier;
     }
-    
+
     public function realloc($segmentSize, $blocSize = null)
-    {   
+    {
         $this->close();
         $this->setSegmentSize($segmentSize);
         if($blocSize) {
             $this->setBlocSize($blocSize);
         }
     }
-    
+
     /**
      * Memory alloc
      */

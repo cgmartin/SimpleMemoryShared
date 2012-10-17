@@ -31,7 +31,7 @@ class MemorySharedManager implements Storage\StorageInterface
             $this->setStorage($storage);
         }
     }
-    
+
     /**
      * Proxy storage interface
      */

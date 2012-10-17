@@ -12,7 +12,7 @@ use Zend\ServiceManager;
 class MemorySharedManagerTest extends TestCase
 {
     protected $sm;
-    
+
     public function setUp()
     {
         require_once __DIR__ . '/../../Module.php';
@@ -23,13 +23,13 @@ class MemorySharedManagerTest extends TestCase
         $this->sm->setService('Config', $config);
         $this->sm->setAllowOverride(true);
     }
-    
+
     public function tearDown()
     {
         $manager = $this->sm->get('MemorySharedManager');
         $manager->getStorage()->close();
     }
-    
+
     public function testCanGetFactory()
     {
         $manager = $this->sm->get('MemorySharedManager');
@@ -37,7 +37,7 @@ class MemorySharedManagerTest extends TestCase
         $manager = $this->sm->get('SimpleMemoryShared');
         $this->assertEquals(get_class($manager), 'SimpleMemoryShared\MemorySharedManager');
     }
-    
+
     public function testCanSetStorageWithNickname()
     {
         $manager = $this->sm->get('MemorySharedManager');
@@ -51,7 +51,7 @@ class MemorySharedManagerTest extends TestCase
         $storage = $manager->getStorage();
         $this->assertEquals(get_class($storage), 'SimpleMemoryShared\Storage\Memcached');
     }
-    
+
     public function testCannotSetStorageWithNickname()
     {
         $this->setExpectedException('SimpleMemoryShared\Storage\Exception\RuntimeException');
@@ -59,7 +59,7 @@ class MemorySharedManagerTest extends TestCase
         $manager->setStorage('file', array('dir' => 'unknow'));
         $this->assertEquals(get_class($storage), 'SimpleMemoryShared\Storage\File');
     }
-    
+
     public function testCanGetPluginWithStorageManager()
     {
         $manager = $this->sm->get('MemorySharedManager');
@@ -70,14 +70,14 @@ class MemorySharedManagerTest extends TestCase
         $storage = $manager->getStoragePluginManager()->get('memcached');
         $this->assertEquals(get_class($storage), 'SimpleMemoryShared\Storage\Memcached');
     }
-    
+
     public function testCannotGetUnknowPluginWithStorageManager()
     {
         $this->setExpectedException('Zend\ServiceManager\Exception\ServiceNotFoundException');
         $manager = $this->sm->get('MemorySharedManager');
         $storage = $manager->getStoragePluginManager()->get('unknow');
     }
-    
+
     public function testCanCreateMemcachedStorageWithCustomConfig()
     {
         $manager = $this->sm->get('MemorySharedManager');
@@ -87,7 +87,7 @@ class MemorySharedManagerTest extends TestCase
         $data = $storage->read(__FUNCTION__, 'foo');
         $this->assertEquals($data, 'foo');
     }
-    
+
     public function testCanCreateFileStorageWithCustomConfig()
     {
         $manager = $this->sm->get('MemorySharedManager');
@@ -97,7 +97,7 @@ class MemorySharedManagerTest extends TestCase
         $data = $storage->read(__FUNCTION__, 'foo');
         $this->assertEquals($data, 'foo');
     }
-    
+
     public function testCanCreateSegmentStorageWithCustomConfig()
     {
         $manager = $this->sm->get('MemorySharedManager');
@@ -106,16 +106,16 @@ class MemorySharedManagerTest extends TestCase
         $storage->write(5, 'foo');
         $data = $storage->read(5, 'foo');
         $this->assertEquals($data, 'foo');
-        
+
         $storage = new \SimpleMemoryShared\Storage\Segment('D');
         $data = $storage->read(5, 'foo');
         $this->assertNotEquals($data, 'foo');
-        
+
         $storage = new \SimpleMemoryShared\Storage\Segment('E');
         $data = $storage->read(5, 'foo');
         $this->assertEquals($data, 'foo');
     }
-    
+
     public function testCanCreateForkWithSegmentStorage()
     {
         $manager = $this->sm->get('MemorySharedManager');

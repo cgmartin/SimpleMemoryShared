@@ -12,11 +12,11 @@ use Zend\ServiceManager;
 class SimpleMemorySharedTest extends TestCase
 {
     protected $sm;
-    
+
     protected $broker;
-    
+
     protected $plugin;
-    
+
     public function setUp()
     {
         require_once __DIR__ . '/../../../../Module.php';
@@ -26,12 +26,12 @@ class SimpleMemorySharedTest extends TestCase
         $this->sm = new ServiceManager\ServiceManager(new ServiceManager\Config($serviceConfig));
         $this->sm->setService('Config', $config);
         $this->sm->setAllowOverride(true);
-        
+
         $helperConfig = $module->getControllerPluginConfig();
         $this->broker = new MockHelper(new ServiceManager\Config($helperConfig));
         $this->broker->setServiceLocator($this->sm);
     }
-    
+
     public function testCanUseFactory()
     {
         $manager = $this->broker->get('memoryshared');
@@ -39,7 +39,7 @@ class SimpleMemorySharedTest extends TestCase
         $this->assertEquals('SimpleMemoryShared\MemorySharedManager', get_class($manager()));
         $this->assertEquals($manager->getMemorySharedManager(), $manager());
     }
-    
+
     public function testCanSetStorage()
     {
         $manager = $this->broker->get('memoryshared');

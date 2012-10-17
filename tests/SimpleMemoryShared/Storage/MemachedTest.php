@@ -12,7 +12,7 @@ use SimpleMemoryShared\Storage;
 class MemachedTest extends TestCase
 {
     protected $storage;
-    
+
     public function setUp()
     {
         $this->storage = new Storage\Memcached(
@@ -22,7 +22,7 @@ class MemachedTest extends TestCase
             )
         );
     }
-    
+
     public function testCanWriteAndRead()
     {
         $this->storage->write('custom-key', 'sample');

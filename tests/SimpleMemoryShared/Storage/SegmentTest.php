@@ -12,31 +12,31 @@ use SimpleMemoryShared\Storage;
 class SegmentTest extends TestCase
 {
     protected $storage;
-    
+
     public function setUp()
     {
         $this->storage = new Storage\Segment('U');
     }
-    
+
     public function tearDown()
     {
         $this->storage->close();
     }
-    
+
     public function testCanWriteAndRead()
     {
         $this->storage->write(3, 'sample');
         $datas = $this->storage->read(3);
         $this->assertEquals($datas, 'sample');
     }
-    
+
     public function testCanWriteAndReadWithNumericKey()
     {
         $this->storage->write('1', 'foo');
         $datas = $this->storage->read('1');
         $this->assertEquals($datas, 'foo');
     }
-    
+
     public function testCannotWriteAndReadWithStringKey()
     {
         $this->setExpectedException('SimpleMemoryShared\Storage\Exception\RuntimeException');
@@ -44,7 +44,7 @@ class SegmentTest extends TestCase
         $datas = $this->storage->read('custom-key');
         $this->assertEquals($datas, 'sample');
     }
-    
+
     public function testCanWriteAndReadIntValue()
     {
         $this->storage->write('1', 12);
@@ -53,7 +53,7 @@ class SegmentTest extends TestCase
         $datas = (integer)$datas;
         $this->assertEquals($datas, 12);
     }
-    
+
     public function testCanWriteAndReadBooleanValue()
     {
         $this->storage->write('1', true);
@@ -62,7 +62,7 @@ class SegmentTest extends TestCase
         $datas = (boolean)$datas;
         $this->assertEquals($datas, true);
     }
-    
+
     public function testCannotSetBlocSizeWithMemoryAllocated()
     {
         $this->storage->write('1', 12345678910);
@@ -71,29 +71,29 @@ class SegmentTest extends TestCase
         $this->setExpectedException('SimpleMemoryShared\Storage\Exception\RuntimeException');
         $this->storage->setBlocSize(16);
     }
-    
+
     public function testCannotGetAccessBadSegment()
     {
         $this->storage->setSegmentSize(8);
         $this->storage->setBlocSize(8);
-        
+
         $this->storage->write('0', 12345678910);
         $datas = $this->storage->read('0');
         $this->assertEquals(12345678, $datas);
-        
+
         $this->setExpectedException('SimpleMemoryShared\Storage\Exception\RuntimeException');
         $this->storage->write(2, 12345678910);
     }
-    
+
     public function testCanReallocMemory()
     {
         $this->storage->setSegmentSize(8);
         $this->storage->setBlocSize(8);
-        
+
         $this->storage->write('0', 12345678910);
         $datas = $this->storage->read('0');
         $this->assertEquals(12345678, $datas);
-        
+
         $this->storage->realloc(64, 8);
         $this->storage->write(2, 12345678910);
         $datas = $this->storage->read(2);

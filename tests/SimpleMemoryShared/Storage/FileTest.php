@@ -12,12 +12,12 @@ use SimpleMemoryShared\Storage;
 class FileTest extends TestCase
 {
     protected $storage;
-    
+
     public function setUp()
     {
         $this->storage = new Storage\File(array('dir' => __DIR__ . '/tmp'));
     }
-    
+
     public function testCanWriteAndRead()
     {
         $this->storage->write('custom-key', 'sample');

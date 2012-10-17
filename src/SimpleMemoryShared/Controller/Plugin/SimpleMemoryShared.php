@@ -14,10 +14,10 @@ class SimpleMemoryShared extends AbstractPlugin
 {
     /**
      * Memory shared manager
-     * @var MemorySharedManager 
+     * @var MemorySharedManager
      */
     protected $manager;
-    
+
     public function __invoke($storage = null, $options = null)
     {
         if (null === $storage) {
@@ -25,7 +25,7 @@ class SimpleMemoryShared extends AbstractPlugin
         }
         return $this->getMemorySharedManager()->setStorage($storage, $options);
     }
-    
+
     public function getMemorySharedManager()
     {
         if(null === $this->manager) {
@@ -33,7 +33,7 @@ class SimpleMemoryShared extends AbstractPlugin
         }
         return $this->manager;
     }
-    
+
     public function setMemorySharedManager(MemorySharedManager $manager)
     {
         $this->manager = $manager;
