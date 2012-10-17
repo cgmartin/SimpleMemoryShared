@@ -50,7 +50,16 @@ class Segment implements CapacityStorageInterface
         }
         $this->identifier = $identifier;
     }
-
+    
+    public function realloc($segmentSize, $blocSize = null)
+    {   
+        $this->close();
+        $this->setSegmentSize($segmentSize);
+        if($blocSize) {
+            $this->setBlocSize($blocSize);
+        }
+    }
+    
     /**
      * Memory alloc
      */
@@ -71,6 +80,9 @@ class Segment implements CapacityStorageInterface
         if(!is_int($uid) && !is_numeric($uid)) {
             throw new Exception\RuntimeException('Segment type key must integer or numeric.');
         }
+        if($uid*$this->blocSize >= $this->segmentSize) {
+            throw new Exception\RuntimeException('Invalid access bloc. Only ' . floor($this->segmentSize/$this->blocSize) . ' blocs are allowed.');
+        }
         $this->alloc();
         $str = shmop_read($this->memory, $uid*$this->blocSize, $this->blocSize);
         return trim($str);
@@ -85,13 +97,19 @@ class Segment implements CapacityStorageInterface
         if(!is_int($uid) && !is_numeric($uid)) {
             throw new Exception\RuntimeException('Segment type key must integer or numeric.');
         }
-        $this->alloc();
         if(is_object($mixed) && method_exists($mixed, '__toString')) {
             $mixed = $mixed->__toString();
+        }
+        if(is_int($mixed) || is_float($mixed) || is_bool($mixed)) {
+            $mixed = (string)$mixed;
         }
         if(!is_string($mixed)) {
             $mixed = '';
         }
+        if($uid*$this->blocSize >= $this->segmentSize) {
+            throw new Exception\RuntimeException('Invalid access bloc. Only ' . floor($this->segmentSize/$this->blocSize) . ' blocs are allowed.');
+        }
+        $this->alloc();
         $limit = $this->getBlocSize();
         $str = mb_substr($mixed, 0, $limit);
         $str = str_pad($str, $this->blocSize);
@@ -135,7 +153,13 @@ class Segment implements CapacityStorageInterface
      */
     public function setBlocSize($size)
     {
-        $this->blocSize = $size;
+        if(null !== $this->memory) {
+            throw new Exception\RuntimeException(
+                'You can not change the segment size because memory is already allocated.'
+                . ' Use realloc() function to create new memory segment.'
+            );
+        }
+        $this->blocSize = (integer)$size;
         return $this;
     }
 
@@ -154,7 +178,13 @@ class Segment implements CapacityStorageInterface
      */
     public function setSegmentSize($size)
     {
-        $this->segmentSize = $size;
+        if(null !== $this->memory) {
+            throw new Exception\RuntimeException(
+                'You can not change the segment size because memory is already allocated.'
+                . ' Use realloc() function to create new memory segment.'
+            );
+        }
+        $this->segmentSize = (integer)$size;
         return $this;
     }
 

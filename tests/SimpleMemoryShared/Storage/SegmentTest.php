@@ -15,7 +15,12 @@ class SegmentTest extends TestCase
     
     public function setUp()
     {
-        $this->storage = new Storage\Segment('S');
+        $this->storage = new Storage\Segment('U');
+    }
+    
+    public function tearDown()
+    {
+        $this->storage->close();
     }
     
     public function testCanWriteAndRead()
@@ -38,5 +43,60 @@ class SegmentTest extends TestCase
         $this->storage->write('custom-key', 'sample');
         $datas = $this->storage->read('custom-key');
         $this->assertEquals($datas, 'sample');
+    }
+    
+    public function testCanWriteAndReadIntValue()
+    {
+        $this->storage->write('1', 12);
+        $datas = $this->storage->read('1');
+        $this->assertEquals('string', gettype($datas));
+        $datas = (integer)$datas;
+        $this->assertEquals($datas, 12);
+    }
+    
+    public function testCanWriteAndReadBooleanValue()
+    {
+        $this->storage->write('1', true);
+        $datas = $this->storage->read('1');
+        $this->assertEquals('string', gettype($datas));
+        $datas = (boolean)$datas;
+        $this->assertEquals($datas, true);
+    }
+    
+    public function testCannotSetBlocSizeWithMemoryAllocated()
+    {
+        $this->storage->write('1', 12345678910);
+        $datas = $this->storage->read('1');
+        $this->assertEquals(12345678, $datas);
+        $this->setExpectedException('SimpleMemoryShared\Storage\Exception\RuntimeException');
+        $this->storage->setBlocSize(16);
+    }
+    
+    public function testCannotGetAccessBadSegment()
+    {
+        $this->storage->setSegmentSize(8);
+        $this->storage->setBlocSize(8);
+        
+        $this->storage->write('0', 12345678910);
+        $datas = $this->storage->read('0');
+        $this->assertEquals(12345678, $datas);
+        
+        $this->setExpectedException('SimpleMemoryShared\Storage\Exception\RuntimeException');
+        $this->storage->write(2, 12345678910);
+    }
+    
+    public function testCanReallocMemory()
+    {
+        $this->storage->setSegmentSize(8);
+        $this->storage->setBlocSize(8);
+        
+        $this->storage->write('0', 12345678910);
+        $datas = $this->storage->read('0');
+        $this->assertEquals(12345678, $datas);
+        
+        $this->storage->realloc(64, 8);
+        $this->storage->write(2, 12345678910);
+        $datas = $this->storage->read(2);
+        $this->assertEquals(12345678, $datas);
     }
 }

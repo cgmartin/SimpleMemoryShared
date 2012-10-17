@@ -24,6 +24,12 @@ class MemorySharedManagerTest extends TestCase
         $this->sm->setAllowOverride(true);
     }
     
+    public function tearDown()
+    {
+        $manager = $this->sm->get('MemorySharedManager');
+        $manager->getStorage()->close();
+    }
+    
     public function testCanGetFactory()
     {
         $manager = $this->sm->get('MemorySharedManager');
