@@ -48,8 +48,9 @@ class File implements CapacityStorageInterface
     }
 
     /**
-     * Read contents related $uid fork
-     * @param int
+     * Read datas with $uid key
+     * @param mixed $uid
+     * @return mixed
      */
     public function read($uid)
     {
@@ -61,8 +62,9 @@ class File implements CapacityStorageInterface
     }
 
     /**
-     * Write contents related $uid fork
-     * @param int
+     * Write datas on $uid key
+     * @param mixed $uid
+     * @param mixed $mixed
      */
     public function write($uid, $mixed)
     {

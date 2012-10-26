@@ -12,12 +12,6 @@ use SimpleMemoryShared\Storage\Exception\RuntimeException;
 class Memcached implements CapacityStorageInterface
 {
     /**
-     * identifier
-     * @var string
-     */
-    protected $identifier;
-
-    /**
      * Memcached instance
      * @var mixed
      */
@@ -62,8 +56,9 @@ class Memcached implements CapacityStorageInterface
     }
 
     /**
-     * Read fork result
-     * @param int
+     * Read datas with $uid key
+     * @param mixed $uid
+     * @return mixed
      */
     public function read($uid)
     {
@@ -72,8 +67,9 @@ class Memcached implements CapacityStorageInterface
     }
 
     /**
-     * Write fork result
-     * @param int
+     * Write datas on $uid key
+     * @param mixed $uid
+     * @param mixed $mixed
      */
     public function write($uid, $mixed)
     {

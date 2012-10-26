@@ -9,10 +9,18 @@ namespace SimpleMemoryShared\Storage;
 
 interface StorageInterface
 {
-
+    /**
+     * Read datas with $uid key
+     * @param mixed $uid
+     * @return mixed
+     */
     public function read($uid);
 
-
+    /**
+     * Write datas on $uid key
+     * @param mixed $uid
+     * @param mixed $mixed
+     */
     public function write($uid, $mixed);
 
 
