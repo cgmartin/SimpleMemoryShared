@@ -1,4 +1,4 @@
 #! /bin/sh
 
 clear
-phpunit --bootstrap Bootstrap.php ./SimpleMemoryShared/
+phpunit --bootstrap bootstrap.php ./SimpleMemoryShared/
