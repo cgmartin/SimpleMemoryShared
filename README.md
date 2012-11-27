@@ -10,7 +10,7 @@ ZF2 module SimpleMemoryShared provide a memory shared manager.
 This module can be used alone or with the [ParallelJobs](https://github.com/blanchonvincent/ParallelJobs) module.
 
 You can use this module within yours simply to have a simple memory manager.
-Storage available are : file, segment, memcached and apc.
+Storage options available are : file, segment, memcached, apc, zendshm, and zenddisk.
 
 Memory shared manager usage
 ------------

@@ -23,6 +23,10 @@ class StoragePluginManager extends AbstractPluginManager
         'memcached'     => 'SimpleMemoryShared\Storage\Memcached',
         //'redis'         => 'SimpleMemoryShared\Storage\Redis',
         'segment'       => 'SimpleMemoryShared\Storage\Segment',
+        'zendshmcache'  => 'SimpleMemoryShared\Storage\ZendShmCache',
+        'zendshm'       => 'SimpleMemoryShared\Storage\ZendShmCache',
+        'zenddiskcache' => 'SimpleMemoryShared\Storage\ZendDiskCache',
+        'zenddisk'      => 'SimpleMemoryShared\Storage\ZendDiskCache',
     );
 
     /**
